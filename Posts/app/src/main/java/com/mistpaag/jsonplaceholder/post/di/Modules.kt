@@ -5,7 +5,8 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import com.mistpaag.jsonplaceholder.post.data.remote.ApiService
 import com.mistpaag.jsonplaceholder.post.data.repository.Repository
 import com.mistpaag.jsonplaceholder.post.utils.Const
-import com.mistpaag.jsonplaceholder.post.views.main.PostListViewModel
+import com.mistpaag.jsonplaceholder.post.views.main.favorites.FavoriteViewModel
+import com.mistpaag.jsonplaceholder.post.views.main.all.PostListViewModel
 import okhttp3.OkHttpClient
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -19,7 +20,16 @@ val appModule = module {
 
 
 val mainVMModule = module {
-    viewModel { PostListViewModel( get() ) }
+    viewModel {
+        PostListViewModel(
+            get()
+        )
+    }
+    viewModel {
+        FavoriteViewModel(
+            get()
+        )
+    }
 }
 
 val detailVMModule = module {

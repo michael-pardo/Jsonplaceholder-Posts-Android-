@@ -1,4 +1,4 @@
-package com.mistpaag.jsonplaceholder.post.views.main
+package com.mistpaag.jsonplaceholder.post.views.main.favorites
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,46 +10,48 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mistpaag.jsonplaceholder.post.R
 import com.mistpaag.jsonplaceholder.post.adapters.PostAdapter
-import com.mistpaag.jsonplaceholder.post.databinding.PostListFragmentBinding
+import com.mistpaag.jsonplaceholder.post.databinding.FavoriteFragmentBinding
 import com.mistpaag.jsonplaceholder.post.models.PostResponse
 import org.koin.android.ext.android.inject
 
-class PostListFragment : Fragment() {
+class FavoriteFragment() : Fragment() {
 
     companion object {
         fun newInstance() =
-            PostListFragment()
+            FavoriteFragment()
     }
 
-    private lateinit var binding: PostListFragmentBinding
-    private val viewModel by inject<PostListViewModel> ()
+    private lateinit var binding : FavoriteFragmentBinding
+
+    private val viewModel by inject<FavoriteViewModel> ()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.post_list_fragment, container, false)
-        binding.lifecycleOwner = this
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.favorite_fragment, container, false)
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         val adapter = PostAdapter{ post ->
             goToDetail(post)
         }
 
-        binding.postsRecycler.layoutManager = GridLayoutManager(context, 1)
+        binding.favoriteRecycler.layoutManager = GridLayoutManager(context, 1)
 
-        binding.postsRecycler.adapter = adapter
+        binding.favoriteRecycler.adapter = adapter
 
         viewModel.fetchPosts()
 
-        viewModel.postList.observe(viewLifecycleOwner, Observer {
+        viewModel.favoritePostList.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it.toMutableList())
         })
 
         return binding.root
     }
 
-    private fun goToDetail(post: PostResponse) {
+    private fun goToDetail(favoritePost: PostResponse) {
 
     }
 

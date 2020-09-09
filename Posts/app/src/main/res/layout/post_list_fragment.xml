@@ -6,13 +6,13 @@
     <data>
         <variable
             name="viewModel"
-            type="com.mistpaag.jsonplaceholder.post.views.main.PostListViewModel" />
+            type="com.mistpaag.jsonplaceholder.post.views.main.all.PostListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".views.main.PostListFragment">
+        tools:context=".views.main.all.PostListFragment">
 
 
         <androidx.recyclerview.widget.RecyclerView

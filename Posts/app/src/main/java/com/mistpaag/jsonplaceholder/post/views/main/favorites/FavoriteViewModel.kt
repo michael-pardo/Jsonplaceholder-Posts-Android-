@@ -1,26 +1,25 @@
-package com.mistpaag.jsonplaceholder.post.views.main
+package com.mistpaag.jsonplaceholder.post.views.main.favorites
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mistpaag.jsonplaceholder.post.data.repository.Repository
 import com.mistpaag.jsonplaceholder.post.models.PostResponse
-import com.mistpaag.jsonplaceholder.post.utils.Const
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class PostListViewModel(private val repository: Repository) : ViewModel() {
+class FavoriteViewModel(private val repository: Repository) : ViewModel() {
+    // TODO: Implement the ViewModel
 
-    val postList : LiveData<List<PostResponse>>
-        get()= _postList
-    private val _postList = MutableLiveData<List<PostResponse>>()
+    val favoritePostList : LiveData<List<PostResponse>>
+        get()= _favoritePostList
+    private val _favoritePostList = MutableLiveData<List<PostResponse>>()
 
     fun fetchPosts(){
         viewModelScope.launch {
             repository.fetchPosts().collect { posts ->
-                _postList.value = posts
+                _favoritePostList.value = posts
                 posts.forEach {
 
                 }
