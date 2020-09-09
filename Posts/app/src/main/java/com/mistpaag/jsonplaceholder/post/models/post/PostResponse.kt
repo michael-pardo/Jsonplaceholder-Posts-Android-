@@ -1,4 +1,4 @@
-package com.mistpaag.jsonplaceholder.post.models
+package com.mistpaag.jsonplaceholder.post.models.post
 
 data class PostResponse(
     val body: String,

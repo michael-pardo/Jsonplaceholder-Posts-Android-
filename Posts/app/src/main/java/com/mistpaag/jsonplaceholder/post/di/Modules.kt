@@ -5,6 +5,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import com.mistpaag.jsonplaceholder.post.data.remote.ApiService
 import com.mistpaag.jsonplaceholder.post.data.repository.Repository
 import com.mistpaag.jsonplaceholder.post.utils.Const
+import com.mistpaag.jsonplaceholder.post.views.detail.DetailPostViewModel
 import com.mistpaag.jsonplaceholder.post.views.main.favorites.FavoriteViewModel
 import com.mistpaag.jsonplaceholder.post.views.main.all.PostListViewModel
 import okhttp3.OkHttpClient
@@ -33,6 +34,7 @@ val mainVMModule = module {
 }
 
 val detailVMModule = module {
+    viewModel { DetailPostViewModel( get() ) }
 }
 
 

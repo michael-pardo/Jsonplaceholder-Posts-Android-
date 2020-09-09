@@ -2,4 +2,10 @@
     <string name="app_name">Posts</string>
     <string name="posts">Posts</string>
     <string name="favorites">Favorites</string>
+    <string name="detail">Detail</string>
+    <string name="website">Website</string>
+    <string name="email">email</string>
+    <string name="phone">phone</string>
+    <string name="username">username</string>
+    <string name="name">name</string>
 </resources>

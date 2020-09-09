@@ -2,7 +2,8 @@ package com.mistpaag.jsonplaceholder.post.data.repository
 
 import android.content.Context
 import com.mistpaag.jsonplaceholder.post.data.remote.ApiService
-import com.mistpaag.jsonplaceholder.post.models.PostResponse
+import com.mistpaag.jsonplaceholder.post.models.post.PostResponse
+import com.mistpaag.jsonplaceholder.post.models.user.User
 import com.mistpaag.jsonplaceholder.post.utils.haveConnection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -19,6 +20,19 @@ class Repository(private val remoteData: ApiService, private val context: Contex
             }
         }catch (t:Throwable){
             emit(emptyList())
+        }
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun fetchUser() = flow<User?> {
+        try {
+            if (context.haveConnection()){
+                val response = remoteData.fetchUser(1).await()
+                emit(response)
+            }else{
+                emit(null)
+            }
+        }catch (t:Throwable){
+            emit(null)
         }
     }.flowOn(Dispatchers.IO)
 }

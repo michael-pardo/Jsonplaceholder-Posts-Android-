@@ -9,10 +9,32 @@
         android:id="@+id/postListFragment"
         android:name="com.mistpaag.jsonplaceholder.post.views.main.all.PostListFragment"
         android:label="@string/posts"
-        tools:layout="@layout/post_list_fragment" />
+        tools:layout="@layout/post_list_fragment" >
+        <action
+            android:id="@+id/action_postListFragment_to_detailPostActivity"
+            app:destination="@id/detailPostActivity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.mistpaag.jsonplaceholder.post.views.main.favorites.FavoriteFragment"
         android:label="@string/favorites"
-        tools:layout="@layout/favorite_fragment" />
+        tools:layout="@layout/favorite_fragment" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_detailPostActivity"
+            app:destination="@id/detailPostActivity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+    </fragment>
+    <activity
+        android:id="@+id/detailPostActivity"
+        android:name="com.mistpaag.jsonplaceholder.post.views.detail.DetailPostActivity"
+        android:label="DetailPostActivity"
+        tools:layout="@layout/activity_detail_post"/>
 </navigation>

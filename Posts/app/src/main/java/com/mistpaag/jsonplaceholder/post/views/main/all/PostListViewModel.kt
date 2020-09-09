@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mistpaag.jsonplaceholder.post.data.repository.Repository
-import com.mistpaag.jsonplaceholder.post.models.PostResponse
+import com.mistpaag.jsonplaceholder.post.models.post.PostResponse
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 

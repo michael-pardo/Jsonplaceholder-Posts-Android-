@@ -7,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mistpaag.jsonplaceholder.post.R
 import com.mistpaag.jsonplaceholder.post.adapters.PostAdapter
 import com.mistpaag.jsonplaceholder.post.databinding.PostListFragmentBinding
-import com.mistpaag.jsonplaceholder.post.models.PostResponse
+import com.mistpaag.jsonplaceholder.post.models.post.PostResponse
 import org.koin.android.ext.android.inject
 
 class PostListFragment : Fragment() {
@@ -32,8 +33,12 @@ class PostListFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        val adapter = PostAdapter{ post ->
-            goToDetail(post)
+        val adapter = PostAdapter{
+            if (it.clickOnImage){
+
+            }else{
+                goToDetail(it.postId)
+            }
         }
 
         binding.postsRecycler.layoutManager = GridLayoutManager(context, 1)
@@ -49,8 +54,8 @@ class PostListFragment : Fragment() {
         return binding.root
     }
 
-    private fun goToDetail(post: PostResponse) {
-
+    private fun goToDetail(postId: Int) {
+        findNavController().navigate(PostListFragmentDirections.actionPostListFragmentToDetailPostActivity())
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

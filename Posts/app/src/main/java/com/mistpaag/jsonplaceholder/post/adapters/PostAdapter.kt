@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.mistpaag.jsonplaceholder.post.R
-import com.mistpaag.jsonplaceholder.post.models.PostResponse
+import com.mistpaag.jsonplaceholder.post.models.AdapterClick
+import com.mistpaag.jsonplaceholder.post.models.post.PostResponse
+import com.mistpaag.jsonplaceholder.post.utils.Const
 import com.mistpaag.jsonplaceholder.post.utils.inflate
 import kotlinx.android.synthetic.main.post_item.view.*
 
-class PostAdapter(private val itemClick:(PostResponse)-> Unit) : ListAdapter<PostResponse, PostAdapter.ViewHolder>(PostDiffCallback()){
+class PostAdapter(private val itemClick:(AdapterClick)-> Unit) : ListAdapter<PostResponse, PostAdapter.ViewHolder>(PostDiffCallback()){
 
 
 
@@ -23,7 +25,7 @@ class PostAdapter(private val itemClick:(PostResponse)-> Unit) : ListAdapter<Pos
         holder.bindTo(getItem(position), position)
     }
 
-    inner class ViewHolder(itemView: View, var itemClick: (PostResponse) -> Unit) : RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder(itemView: View, var itemClick: (AdapterClick) -> Unit) : RecyclerView.ViewHolder(itemView){
         fun bindTo(post: PostResponse, position: Int){
             with(post){
                 itemView.body_text.text = body
@@ -32,6 +34,12 @@ class PostAdapter(private val itemClick:(PostResponse)-> Unit) : ListAdapter<Pos
                     itemView.favorite_icon.load(R.drawable.favorite)
                 }else{
                     itemView.favorite_icon.load(R.drawable.unfavorite)
+                }
+                itemView.setOnClickListener {
+                    itemClick(AdapterClick(post.id, false))
+                }
+                itemView.favorite_icon.setOnClickListener {
+                    itemClick(AdapterClick(post.id, true))
                 }
             }
 
