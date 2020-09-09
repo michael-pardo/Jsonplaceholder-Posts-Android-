@@ -35,12 +35,13 @@
 
                     <TextView
                         android:id="@+id/tittle_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="32dp"
                         android:text="TextView"
+                        android:textAlignment="center"
                         android:textSize="24sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +49,7 @@
 
                     <TextView
                         android:id="@+id/body_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
@@ -168,7 +169,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/is_favorite_image"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="8dp"

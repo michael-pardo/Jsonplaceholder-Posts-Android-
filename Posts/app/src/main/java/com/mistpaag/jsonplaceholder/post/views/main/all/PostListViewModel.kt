@@ -19,12 +19,22 @@ class PostListViewModel(private val repository: Repository) : ViewModel() {
         viewModelScope.launch {
             repository.fetchPosts().collect { posts ->
                 _postList.value = posts
-                posts.forEach {
-
-                }
-
             }
         }
+    }
 
+    fun fetchLocalPosts(){
+        viewModelScope.launch {
+            repository.fetchLocalPosts().collect { posts ->
+                _postList.value = posts
+            }
+        }
+    }
+
+    fun updateFavoritePostStatus(id:Int, isFavorite:Boolean){
+        viewModelScope.launch {
+            repository.updateFavoritePostStatus(id, isFavorite)
+            repository.fetchLocalPosts()
+        }
     }
 }

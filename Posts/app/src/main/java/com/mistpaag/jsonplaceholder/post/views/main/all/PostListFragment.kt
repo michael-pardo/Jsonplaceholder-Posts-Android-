@@ -13,6 +13,7 @@ import com.mistpaag.jsonplaceholder.post.R
 import com.mistpaag.jsonplaceholder.post.adapters.PostAdapter
 import com.mistpaag.jsonplaceholder.post.databinding.PostListFragmentBinding
 import com.mistpaag.jsonplaceholder.post.models.post.PostResponse
+import com.mistpaag.jsonplaceholder.post.utils.Const
 import org.koin.android.ext.android.inject
 
 class PostListFragment : Fragment() {
@@ -25,6 +26,8 @@ class PostListFragment : Fragment() {
     private lateinit var binding: PostListFragmentBinding
     private val viewModel by inject<PostListViewModel> ()
 
+    private lateinit var adapter: PostAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,9 +36,9 @@ class PostListFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        val adapter = PostAdapter{
+        adapter = PostAdapter{
             if (it.clickOnImage){
-
+                viewModel.updateFavoritePostStatus(it.postId, it.isFavorite)
             }else{
                 goToDetail(it.postId)
             }
@@ -54,8 +57,14 @@ class PostListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchLocalPosts()
+        adapter.notifyDataSetChanged()
+    }
+
     private fun goToDetail(postId: Int) {
-        findNavController().navigate(PostListFragmentDirections.actionPostListFragmentToDetailPostActivity())
+        findNavController().navigate(PostListFragmentDirections.actionPostListFragmentToDetailPostActivity(postId))
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

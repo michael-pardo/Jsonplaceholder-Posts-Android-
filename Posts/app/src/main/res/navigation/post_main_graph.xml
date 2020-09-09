@@ -36,5 +36,9 @@
         android:id="@+id/detailPostActivity"
         android:name="com.mistpaag.jsonplaceholder.post.views.detail.DetailPostActivity"
         android:label="DetailPostActivity"
-        tools:layout="@layout/activity_detail_post"/>
+        tools:layout="@layout/activity_detail_post">
+        <argument
+            android:name="id_post"
+            app:argType="integer" />
+    </activity>
 </navigation>
