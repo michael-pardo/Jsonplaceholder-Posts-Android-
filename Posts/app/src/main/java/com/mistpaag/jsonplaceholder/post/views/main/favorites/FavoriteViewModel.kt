@@ -18,14 +18,16 @@ class FavoriteViewModel(private val repository: Repository) : ViewModel() {
 
     fun fetchPosts(){
         viewModelScope.launch {
-            repository.fetchPosts().collect { posts ->
+            repository.fetchLocalFavoritesPosts().collect { posts ->
                 _favoritePostList.value = posts
-                posts.forEach {
-
-                }
-
             }
         }
+    }
 
+    fun updateFavoritePostStatus(id:Int, isFavorite:Boolean){
+        viewModelScope.launch {
+            repository.updateFavoritePostStatus(id, isFavorite)
+            fetchPosts()
+        }
     }
 }

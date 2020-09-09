@@ -4,7 +4,7 @@
     <item
         android:id="@+id/postListFragment"
         android:title="@string/posts"
-        android:icon="@drawable/abc_vector_test"
+        android:icon="@drawable/post"
         />
 
     <item

@@ -1,7 +1,9 @@
 package com.mistpaag.jsonplaceholder.post.di
 
 
+import androidx.room.Room
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.mistpaag.jsonplaceholder.post.data.local.PostDB
 import com.mistpaag.jsonplaceholder.post.data.remote.ApiService
 import com.mistpaag.jsonplaceholder.post.data.repository.Repository
 import com.mistpaag.jsonplaceholder.post.utils.Const
@@ -52,9 +54,12 @@ val dataModule = module {
         .build()
     }
 
+    single { Room.databaseBuilder(get(), PostDB::class.java, Const.dbName).build() }
+    single { get<PostDB>().postdao }
+
     single { get<Retrofit>().create(ApiService::class.java) }
 
-    single { Repository(get(), get() ) }
+    single { Repository(get(), get(), get() ) }
 }
 
 fun createOkHttpClient(): OkHttpClient {

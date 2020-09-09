@@ -26,6 +26,7 @@ class FavoriteFragment() : Fragment() {
     private lateinit var binding : FavoriteFragmentBinding
 
     private val viewModel by inject<FavoriteViewModel> ()
+    private lateinit var adapter: PostAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,9 +37,9 @@ class FavoriteFragment() : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        val adapter = PostAdapter{
+        adapter = PostAdapter{
             if (it.clickOnImage){
-
+                viewModel.updateFavoritePostStatus(it.postId, it.isFavorite)
             }else{
                 goToDetail(it.postId)
             }
@@ -48,7 +49,6 @@ class FavoriteFragment() : Fragment() {
 
         binding.favoriteRecycler.adapter = adapter
 
-        viewModel.fetchPosts()
 
         viewModel.favoritePostList.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it.toMutableList())
@@ -57,8 +57,14 @@ class FavoriteFragment() : Fragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchPosts()
+        adapter.notifyDataSetChanged()
+    }
+
     private fun goToDetail(favoritePostId: Int) {
-        findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToDetailPostActivity())
+        findNavController().navigate(FavoriteFragmentDirections.actionFavoriteFragmentToDetailPostActivity(favoritePostId))
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -30,19 +30,25 @@ class PostAdapter(private val itemClick:(AdapterClick)-> Unit) : ListAdapter<Pos
             with(post){
                 itemView.body_text.text = body
                 itemView.tittle_text.text = title
-                if (favorite) {
-                    itemView.favorite_icon.load(R.drawable.favorite)
-                }else{
-                    itemView.favorite_icon.load(R.drawable.unfavorite)
-                }
+                loadFavoriteState(favorite)
                 itemView.setOnClickListener {
-                    itemClick(AdapterClick(post.id, false))
+                    itemClick(AdapterClick(post.id, false,favorite))
                 }
                 itemView.favorite_icon.setOnClickListener {
-                    itemClick(AdapterClick(post.id, true))
+                    favorite = !favorite
+                    loadFavoriteState(favorite)
+                    itemClick(AdapterClick(post.id, true, favorite))
                 }
             }
 
+        }
+
+        private fun loadFavoriteState(favorite:Boolean){
+            if (favorite) {
+                itemView.favorite_icon.load(R.drawable.favorite)
+            }else{
+                itemView.favorite_icon.load(R.drawable.unfavorite)
+            }
         }
     }
 
