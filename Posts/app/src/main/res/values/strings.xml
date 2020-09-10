@@ -4,8 +4,8 @@
     <string name="favorites">Favorites</string>
     <string name="detail">Detail</string>
     <string name="website">Website</string>
-    <string name="email">email</string>
-    <string name="phone">phone</string>
-    <string name="username">username</string>
-    <string name="name">name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="username">Username</string>
+    <string name="name">Name</string>
 </resources>
