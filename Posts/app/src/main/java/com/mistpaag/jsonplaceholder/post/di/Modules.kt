@@ -7,6 +7,7 @@ import com.mistpaag.jsonplaceholder.post.data.local.PostDB
 import com.mistpaag.jsonplaceholder.post.data.remote.ApiService
 import com.mistpaag.jsonplaceholder.post.data.repository.Repository
 import com.mistpaag.jsonplaceholder.post.utils.Const
+import com.mistpaag.jsonplaceholder.post.views.SharedViewModel
 import com.mistpaag.jsonplaceholder.post.views.detail.DetailPostViewModel
 import com.mistpaag.jsonplaceholder.post.views.main.favorites.FavoriteViewModel
 import com.mistpaag.jsonplaceholder.post.views.main.all.PostListViewModel
@@ -19,6 +20,7 @@ import java.util.concurrent.TimeUnit
 
 
 val appModule = module {
+    single { SharedViewModel() }
 }
 
 

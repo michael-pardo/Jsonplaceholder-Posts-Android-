@@ -16,11 +16,11 @@ import kotlinx.coroutines.withContext
 class Repository(private val remoteData: ApiService, private val localData: PostDao, private val context: Context){
 
 
-    fun fetchPosts() = flow<List<PostResponse>> {
+    fun fetchPosts(needRemoteData: Boolean = false) = flow<List<PostResponse>> {
         try {
             if (context.haveConnection()){
                 fetchLocalPosts().collect {
-                    if (it.isNotEmpty()) {
+                    if (!needRemoteData) {
                         emit(it)
                     }else{
                         val response = remoteData.fetchPosts().await()
@@ -30,7 +30,6 @@ class Repository(private val remoteData: ApiService, private val localData: Post
                         }
                     }
                 }
-
             }else{
                 fetchLocalPosts().collect {
                     emit(it)
@@ -42,6 +41,8 @@ class Repository(private val remoteData: ApiService, private val localData: Post
             }
         }
     }.flowOn(Dispatchers.IO)
+
+
 
     fun fetchLocalPosts() = flow{
         emit(localData.fetchPosts())
@@ -79,6 +80,11 @@ class Repository(private val remoteData: ApiService, private val localData: Post
             localData.deletePost(id)
         }
     }
+
+    fun deletePosts()= flow<List<PostResponse>>{
+        localData.deletePosts()
+        emit(emptyList())
+    }.flowOn(Dispatchers.IO)
 
 
 }
