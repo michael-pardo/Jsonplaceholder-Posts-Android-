@@ -19,9 +19,9 @@ class Repository(private val remoteData: ApiService, private val localData: Post
     fun fetchPosts(needRemoteData: Boolean = false) = flow<List<PostResponse>> {
         try {
             if (context.haveConnection()){
-                fetchLocalPosts().collect {
+                fetchLocalPosts().collect { posts->
                     if (!needRemoteData) {
-                        emit(it)
+                        emit(posts)
                     }else{
                         val response = remoteData.fetchPosts().await()
                         localData.insertPosts(response)
@@ -88,6 +88,12 @@ class Repository(private val remoteData: ApiService, private val localData: Post
         localData.deletePosts()
         emit(emptyList())
     }.flowOn(Dispatchers.IO)
+
+    suspend fun takenPost(id:Int){
+        withContext(Dispatchers.IO){
+            localData.takenPost(id)
+        }
+    }
 
 
 }

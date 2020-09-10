@@ -38,6 +38,7 @@ class DetailPostViewModel(private val repository: Repository): ViewModel(){
         viewModelScope.launch {
             repository.fetchLocalPost(id).collect {
                 _postDetail.value = it
+                repository.takenPost(id)
             }
         }
     }
