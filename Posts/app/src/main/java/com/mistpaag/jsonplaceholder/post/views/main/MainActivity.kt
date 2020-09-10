@@ -44,6 +44,10 @@ class MainActivity : AppCompatActivity() {
             sharedViewModel.clearPosts(true)
         }
 
+        binding.reloadPostsImage.setOnClickListener {
+            sharedViewModel.needRemoteData(true)
+        }
+
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             binding.titleToolbar.text = destination.label
         }
