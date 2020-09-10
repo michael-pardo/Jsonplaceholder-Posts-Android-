@@ -16,9 +16,14 @@ class PostListViewModel(private val repository: Repository) : ViewModel() {
         get()= _postList
     private val _postList = MutableLiveData<List<PostResponse>>()
 
-    fun fetchPosts(){
+
+    fun loadInitialData(){
+        fetchPosts(false)
+    }
+
+    fun fetchPosts(needRemoteData: Boolean = false){
         viewModelScope.launch {
-            repository.fetchPosts().collect { posts ->
+            repository.fetchPosts(needRemoteData).collect { posts ->
                 _postList.value = posts
             }
         }
@@ -35,6 +40,14 @@ class PostListViewModel(private val repository: Repository) : ViewModel() {
     fun deleteItem(id: Int){
         viewModelScope.launch {
             repository.deletePost(id)
+        }
+    }
+
+    fun deletePosts(){
+        viewModelScope.launch {
+            repository.deletePosts().collect {
+                _postList.value = it
+            }
         }
     }
 

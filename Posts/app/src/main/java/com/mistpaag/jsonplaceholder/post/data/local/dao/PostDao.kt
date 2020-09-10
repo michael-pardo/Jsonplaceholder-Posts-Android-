@@ -10,22 +10,22 @@ interface PostDao{
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertPosts(posts: List<PostResponse>)
 
-    @Query("SELECT * FROM posts;")
+    @Query("SELECT * FROM posts")
     fun fetchPosts(): List<PostResponse>
 
-    @Query("SELECT * FROM posts WHERE id=:id;")
+    @Query("SELECT * FROM posts WHERE id=:id")
     fun fetchPost(id:Int):PostResponse
 
-    @Query("SELECT * FROM posts WHERE favorite=1;")
+    @Query("SELECT * FROM posts WHERE favorite=1")
     fun fetchFavoritesPosts(): List<PostResponse>
 
-    @Query("UPDATE posts SET favorite=:isFavorite WHERE id=:id;")
+    @Query("UPDATE posts SET favorite=:isFavorite WHERE id=:id")
     fun updateFavoritePost(id:Int, isFavorite:Boolean)
 
     @Query("DELETE FROM posts WHERE id=:id")
     fun deletePost(id:Int)
 
-    @Query("SELECT COUNT(*) FROM posts;")
-    fun countPost() : Int
+    @Query("DELETE FROM posts")
+    fun deletePosts()
 
 }

@@ -18,6 +18,7 @@ import com.mistpaag.jsonplaceholder.post.databinding.PostListFragmentBinding
 import com.mistpaag.jsonplaceholder.post.models.post.PostResponse
 import com.mistpaag.jsonplaceholder.post.utils.Const
 import com.mistpaag.jsonplaceholder.post.utils.SwipeToDeleteCallback
+import com.mistpaag.jsonplaceholder.post.views.SharedViewModel
 import org.koin.android.ext.android.inject
 
 class PostListFragment : Fragment() {
@@ -29,6 +30,7 @@ class PostListFragment : Fragment() {
 
     private lateinit var binding: PostListFragmentBinding
     private val viewModel by inject<PostListViewModel> ()
+    private val sharedViewModel by inject<SharedViewModel> ()
 
     private lateinit var postsList : MutableList<PostResponse>
 
@@ -56,19 +58,32 @@ class PostListFragment : Fragment() {
 
         swipeToDelete()
 
-        viewModel.fetchPosts()
+
 
         viewModel.postList.observe(viewLifecycleOwner, Observer {
             postsList = it.toMutableList()
             adapter.submitList(postsList)
         })
 
+        sharedViewModel.needRemoteData.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                viewModel.fetchPosts(true)
+                sharedViewModel.needRemoteData(false)
+            }
+        })
+
+        sharedViewModel.clearPosts.observe(viewLifecycleOwner, Observer { clear->
+            if (clear){
+                viewModel.deletePosts()
+                sharedViewModel.clearPosts(false)
+            }
+
+        })
+
         return binding.root
     }
 
     private fun swipeToDelete(){
-
-
         val swipeToDeleteCallback = object : SwipeToDeleteCallback() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val pos = viewHolder.adapterPosition
@@ -90,6 +105,7 @@ class PostListFragment : Fragment() {
         super.onStart()
         viewModel.fetchLocalPosts()
         adapter.notifyDataSetChanged()
+
     }
 
     private fun goToDetail(postId: Int) {
