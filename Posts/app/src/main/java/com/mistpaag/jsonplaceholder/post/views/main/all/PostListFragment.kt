@@ -9,11 +9,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mistpaag.jsonplaceholder.post.R
 import com.mistpaag.jsonplaceholder.post.adapters.PostAdapter
 import com.mistpaag.jsonplaceholder.post.databinding.PostListFragmentBinding
 import com.mistpaag.jsonplaceholder.post.models.post.PostResponse
 import com.mistpaag.jsonplaceholder.post.utils.Const
+import com.mistpaag.jsonplaceholder.post.utils.SwipeToDeleteCallback
 import org.koin.android.ext.android.inject
 
 class PostListFragment : Fragment() {
@@ -25,6 +29,8 @@ class PostListFragment : Fragment() {
 
     private lateinit var binding: PostListFragmentBinding
     private val viewModel by inject<PostListViewModel> ()
+
+    private lateinit var postsList : MutableList<PostResponse>
 
     private lateinit var adapter: PostAdapter
 
@@ -44,17 +50,40 @@ class PostListFragment : Fragment() {
             }
         }
 
-        binding.postsRecycler.layoutManager = GridLayoutManager(context, 1)
+        binding.postsRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
         binding.postsRecycler.adapter = adapter
+
+        swipeToDelete()
 
         viewModel.fetchPosts()
 
         viewModel.postList.observe(viewLifecycleOwner, Observer {
-            adapter.submitList(it.toMutableList())
+            postsList = it.toMutableList()
+            adapter.submitList(postsList)
         })
 
         return binding.root
+    }
+
+    private fun swipeToDelete(){
+
+
+        val swipeToDeleteCallback = object : SwipeToDeleteCallback() {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val pos = viewHolder.adapterPosition
+                viewModel.deleteItem(postsList[pos].id)
+                postsList.removeAt(pos)
+                adapter.notifyItemRemoved(pos)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(binding.postsRecycler)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        adapter.notifyDataSetChanged()
     }
 
     override fun onStart() {

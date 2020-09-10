@@ -24,7 +24,8 @@ class MainActivity : AppCompatActivity() {
             if (lastMenuId == menuId) return@setOnNavigationItemSelectedListener true
             lastMenuId = menuId
             when(lastMenuId){
-                R.id.postListFragment -> navController.popBackStack(R.id.postListFragment, false)
+//                R.id.postListFragment -> navController.popBackStack(R.id.postListFragment, false)
+                R.id.postListFragment -> navController.navigate(R.id.postListFragment)
                 else -> navController.navigate(R.id.favoriteFragment)
             }
             return@setOnNavigationItemSelectedListener true

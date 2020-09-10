@@ -22,4 +22,10 @@ interface PostDao{
     @Query("UPDATE posts SET favorite=:isFavorite WHERE id=:id;")
     fun updateFavoritePost(id:Int, isFavorite:Boolean)
 
+    @Query("DELETE FROM posts WHERE id=:id")
+    fun deletePost(id:Int)
+
+    @Query("SELECT COUNT(*) FROM posts;")
+    fun countPost() : Int
+
 }

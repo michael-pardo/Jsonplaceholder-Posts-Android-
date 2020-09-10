@@ -14,7 +14,9 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 
 class Repository(private val remoteData: ApiService, private val localData: PostDao, private val context: Context){
-    suspend fun fetchPosts() = flow<List<PostResponse>> {
+
+
+    fun fetchPosts() = flow<List<PostResponse>> {
         try {
             if (context.haveConnection()){
                 fetchLocalPosts().collect {
@@ -49,7 +51,7 @@ class Repository(private val remoteData: ApiService, private val localData: Post
         emit(localData.fetchFavoritesPosts())
     }.flowOn(Dispatchers.IO)
 
-    suspend fun fetchUser() = flow<User?> {
+    fun fetchUser() = flow<User?> {
         try {
             if (context.haveConnection()){
                 val response = remoteData.fetchUser(1).await()
@@ -71,6 +73,12 @@ class Repository(private val remoteData: ApiService, private val localData: Post
     fun fetchLocalPost(id:Int) = flow{
         emit(localData.fetchPost(id))
     }.flowOn(Dispatchers.IO)
+
+    suspend fun deletePost(id:Int){
+        withContext(Dispatchers.IO){
+            localData.deletePost(id)
+        }
+    }
 
 
 }

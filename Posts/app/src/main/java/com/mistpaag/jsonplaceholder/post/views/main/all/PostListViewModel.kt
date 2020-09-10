@@ -8,6 +8,7 @@ import com.mistpaag.jsonplaceholder.post.data.repository.Repository
 import com.mistpaag.jsonplaceholder.post.models.post.PostResponse
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.text.FieldPosition
 
 class PostListViewModel(private val repository: Repository) : ViewModel() {
 
@@ -28,6 +29,12 @@ class PostListViewModel(private val repository: Repository) : ViewModel() {
             repository.fetchLocalPosts().collect { posts ->
                 _postList.value = posts
             }
+        }
+    }
+
+    fun deleteItem(id: Int){
+        viewModelScope.launch {
+            repository.deletePost(id)
         }
     }
 
