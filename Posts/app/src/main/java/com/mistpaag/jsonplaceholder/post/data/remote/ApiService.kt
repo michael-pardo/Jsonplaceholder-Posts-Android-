@@ -4,6 +4,7 @@ import com.mistpaag.jsonplaceholder.post.models.post.PostResponse
 import com.mistpaag.jsonplaceholder.post.models.user.User
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -11,8 +12,8 @@ interface ApiService {
     fun fetchPosts(
     ): Deferred<List<PostResponse>>
 
-    @GET("/user/")
+    @GET("/users/{id}")
     fun fetchUser(
-        @Query("") id:Int
+        @Path("id") id:Int
     ): Deferred<User>
 }

@@ -8,6 +8,7 @@ import coil.api.load
 import com.mistpaag.jsonplaceholder.post.R
 import com.mistpaag.jsonplaceholder.post.data.repository.Repository
 import com.mistpaag.jsonplaceholder.post.models.post.PostResponse
+import com.mistpaag.jsonplaceholder.post.models.user.User
 import com.mistpaag.jsonplaceholder.post.utils.Const
 import kotlinx.android.synthetic.main.post_item.view.*
 import kotlinx.coroutines.flow.collect
@@ -19,10 +20,15 @@ class DetailPostViewModel(private val repository: Repository): ViewModel(){
         get()= _postDetail
     private val _postDetail = MutableLiveData<PostResponse>()
 
-    fun fetchUser(){
+    val user : LiveData<User>
+        get()= _user
+    private val _user = MutableLiveData<User>()
+
+    fun fetchUser(id:Int){
         viewModelScope.launch {
-            repository.fetchUser().collect {
+            repository.fetchUser(id).collect {
                 it?.let {
+                    _user.value = it
                 }
             }
         }

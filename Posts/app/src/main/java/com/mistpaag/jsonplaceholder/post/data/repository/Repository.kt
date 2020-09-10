@@ -52,18 +52,21 @@ class Repository(private val remoteData: ApiService, private val localData: Post
         emit(localData.fetchFavoritesPosts())
     }.flowOn(Dispatchers.IO)
 
-    fun fetchUser() = flow<User?> {
+    fun fetchUser(id:Int) = flow<User?> {
         try {
             if (context.haveConnection()){
-                val response = remoteData.fetchUser(1).await()
-                emit(response)
+                val user = remoteData.fetchUser(id).await()
+                localData.insertUser(user)
+                emit(localData.fetchUser(id))
             }else{
-                emit(null)
+                emit(localData.fetchUser(id))
             }
         }catch (t:Throwable){
-            emit(null)
+            emit(localData.fetchUser(id))
         }
     }.flowOn(Dispatchers.IO)
+
+
 
     suspend fun updateFavoritePostStatus(id:Int, isFavorite:Boolean){
         withContext(Dispatchers.IO) {
