@@ -18,6 +18,7 @@ import com.mistpaag.jsonplaceholder.post.databinding.PostListFragmentBinding
 import com.mistpaag.jsonplaceholder.post.models.post.PostResponse
 import com.mistpaag.jsonplaceholder.post.utils.Const
 import com.mistpaag.jsonplaceholder.post.utils.SwipeToDeleteCallback
+import com.mistpaag.jsonplaceholder.post.utils.smoothSnapToPosition
 import com.mistpaag.jsonplaceholder.post.views.SharedViewModel
 import org.koin.android.ext.android.inject
 
@@ -69,6 +70,7 @@ class PostListFragment : Fragment() {
             if (it) {
                 viewModel.fetchPosts(true)
                 sharedViewModel.needRemoteData(false)
+                binding.postsRecycler.smoothSnapToPosition(0)
             }
         })
 
