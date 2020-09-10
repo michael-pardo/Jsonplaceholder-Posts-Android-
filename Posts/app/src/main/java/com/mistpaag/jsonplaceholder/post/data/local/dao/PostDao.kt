@@ -9,7 +9,15 @@ interface PostDao{
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertPosts(posts: List<PostResponse>)
+    fun insertListPosts(posts: List<PostResponse>)
+
+    @Transaction
+    fun insertPosts(posts: List<PostResponse>){
+        for (i in 0 until 20) {
+            posts[i].taken = true
+        }
+        insertListPosts(posts)
+    }
 
     @Query("SELECT * FROM posts")
     fun fetchPosts(): List<PostResponse>
@@ -22,6 +30,12 @@ interface PostDao{
 
     @Query("UPDATE posts SET favorite=:isFavorite WHERE id=:id")
     fun updateFavoritePost(id:Int, isFavorite:Boolean)
+
+    @Query("UPDATE posts set taken=1 WHERE id IN(SELECT id from posts LIMIT 20)")
+    fun updateBlueIndicatorPosts()
+
+    @Query("UPDATE posts set taken=0 WHERE id=:id")
+    fun takenPost(id:Int)
 
     @Query("DELETE FROM posts WHERE id=:id")
     fun deletePost(id:Int)

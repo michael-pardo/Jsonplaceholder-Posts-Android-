@@ -31,6 +31,7 @@ class PostAdapter(private val itemClick:(AdapterClick)-> Unit) : ListAdapter<Pos
                 itemView.body_text.text = body
                 itemView.tittle_text.text = title
                 loadFavoriteState(favorite)
+                loadTakenState(taken)
                 itemView.setOnClickListener {
                     itemClick(AdapterClick(post.id, false,favorite))
                 }
@@ -48,6 +49,14 @@ class PostAdapter(private val itemClick:(AdapterClick)-> Unit) : ListAdapter<Pos
                 itemView.favorite_icon.load(R.drawable.favorite)
             }else{
                 itemView.favorite_icon.load(R.drawable.unfavorite)
+            }
+        }
+
+        private fun loadTakenState(isTaken:Boolean){
+            if (isTaken) {
+                itemView.taken_image.load(R.drawable.taken)
+            }else{
+                itemView.taken_image.load(R.drawable.untaken)
             }
         }
     }

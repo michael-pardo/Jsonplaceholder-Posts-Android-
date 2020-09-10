@@ -10,5 +10,6 @@ data class PostResponse(
     val id: Int,
     val title: String,
     val userId: Int,
-    var favorite: Boolean = false
+    var favorite: Boolean = false,
+    var taken: Boolean = false
 )
